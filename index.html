@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<img src="#">
+<button id="button">Click me! </button>
+<form>
+    <label for="keyword">Enter Keyword here!</label>
+    <input type="text" id="keyword">
+    <button type="submit">Submit</button>
+</form>
+<script>
+
+    const img = document.querySelector('img');
+    function fetcher(keyword) {
+        img.src = "#"
+        fetch(`https://api.giphy.com/v1/gifs/translate?api_key=SqiqCSK1BjpX772ADLb1LQ28n6OH5rm6&s=${keyword}`, {mode: 'cors'})
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(response) {
+                img.src = response.data.images.original.url;
+            })
+            .catch((error) => fetcher("404"))
+    }
+    fetcher("cats")
+    const button = document.getElementById('button')
+    button.addEventListener('click', () => fetcher("cats"))
+
+    const form = document.querySelector('form')
+    form.addEventListener('submit', (event) => {
+        event.preventDefault()
+        const input = document.getElementById('keyword')
+        const keyword = input.value
+        input.value = ''
+        fetcher(keyword)
+    })
+</script>
+</body>
+</html>
